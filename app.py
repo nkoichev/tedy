@@ -76,7 +76,7 @@ for i, (num1, operator, num2, answer) in enumerate(st.session_state.problems):
     
     # Display operator
     with col2:
-        st.write(f"{operator}")
+        st.image(f"gifs/plus.gif")
     
     # Display num2 as GIF
     with col3:
