@@ -48,11 +48,12 @@ if button_reload:
     my_bar = st.progress(0, text=progress_text)
 
     for percent_complete in range(100):
-        time.sleep(0.01)
+        time.sleep(0.005)
         my_bar.progress(percent_complete + 1, text=progress_text)
-    time.sleep(1)
+    time.sleep(0.5)
     my_bar.empty()
     st.session_state.user_answers = [None] * 5
+
     new_numbers()
     st.snow()
 
@@ -68,7 +69,7 @@ score_true = 0
 score_false = 0
 score = 0
 for i, (num1, operator, num2, answer) in enumerate(st.session_state.problems):
-    col1, col2, col3, col4, col5 = st.columns([0.5, 0.5, 0.5,0.5, 2], gap="small")
+    col1, col2, col3, col4, col5 = st.columns([0.5, 0.3, 0.5,0.5, 2], gap="small")
     
     # Display num1 as GIF
     with col1:
@@ -76,7 +77,8 @@ for i, (num1, operator, num2, answer) in enumerate(st.session_state.problems):
     
     # Display operator
     with col2:
-        st.image(f"gifs/plus.gif")
+        st.write("")
+        st.image(f"gifs/plus.png")
     
     # Display num2 as GIF
     with col3:
