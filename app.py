@@ -1,17 +1,17 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-import plotly.express as px
-import plotly.graph_objects as go
 import random
 import time
 
-st.write("Здравей, Теди!")
 
+
+st.write(f"Здравей, :blue[Теди]! Можеш ли да решиш тези задачи?")
+
+# Initialize session state for showing/hiding answers
 if "show_answers" not in st.session_state:
     st.session_state.show_answers = False
 
-column1, column2, column3 = st.columns(3, gap="small")
+# Columns for buttons
+column1, column2, column3, column4 = st.columns(4, gap="small")
 
 with column1:
     button_show = st.button("Покажи отговорите")
@@ -22,14 +22,26 @@ with column2:
     if button_hide:
         st.session_state.show_answers = False
 
+# Initialize problem set
+if 'problems' not in st.session_state:
+    st.session_state.problems = []
 
+# Function to generate new math problems
+def new_numbers():
+    st.session_state.problems = []
+    for _ in range(5):
+        num1 = random.randint(0, 10)
+        num2 = random.randint(0, 10)
+        operator = "+"
+        answer = num1 + num2
+        st.session_state.problems.append((num1, operator, num2, answer))
 
+if st.session_state.problems == []:
+    new_numbers()
 
-
-
+# Button for refreshing problems
 with column3:
     button_reload = st.button("Обнови")
-
 
 if button_reload:
     progress_text = ":) :) :)"
@@ -40,61 +52,69 @@ if button_reload:
         my_bar.progress(percent_complete + 1, text=progress_text)
     time.sleep(1)
     my_bar.empty()
-    st.session_state.user_answers = [None] * 10
-    st.balloons()
-# Initialize session state for problems and answers
-if 'problems' not in st.session_state:
-    st.session_state.problems = []
-    for i in range(10):
-        num1 = random.randint(1, 10)
-        num2 = random.randint(1, 10)
-        operator = random.choice(["+"])
-        if operator == "+":
-            answer = num1 + num2
-        else:
-            answer = num1 - num2
-        st.session_state.problems.append((num1, operator, num2, answer))
+    st.session_state.user_answers = [None] * 5
+    new_numbers()
+    st.snow()
 
-# Initialize session state for user answers
+if 'problems' not in st.session_state:
+    new_numbers()
+
+# Initialize user answers
 if 'user_answers' not in st.session_state:
-    st.session_state.user_answers = [None] * 10
+    st.session_state.user_answers = [None] * 5
 
 # Score calculation
 score_true = 0
 score_false = 0
 score = 0
 for i, (num1, operator, num2, answer) in enumerate(st.session_state.problems):
-    col1, col2, col3, col4 = st.columns([0.8, 0.8, 4, 1], gap="small", vertical_alignment = "bottom")
+    col1, col2, col3, col4, col5 = st.columns([0.5, 0.5, 0.5,0.5, 2], gap="small")
+    
+    # Display num1 as GIF
     with col1:
-        #st.write("")
-        st.write("")
-        st.write(f"{num1} {operator} {num2} =")
+        st.image(f"gifs/{num1}.gif")
+    
+    # Display operator
     with col2:
+        st.write(f"{operator}")
+    
+    # Display num2 as GIF
+    with col3:
+        st.image(f"gifs/{num2}.gif")
+    
+    # User input for the answer
+    with col4:
         user_input = st.number_input(label="", format="%0.0f", value=st.session_state.user_answers[int(i)] or None, key=f"input_{i}")
-    st.session_state.user_answers[i] = user_input
-
-    # Check if the answer is correct
-    if user_input == answer:
-        with col3:
-            st.success(f":green[Вярно!]", icon="✅")
-        score += 1
-        score_true += 1
-    else:
-        # time.sleep(2)
-        if st.session_state.user_answers[i] != None:
-            with col3:
-                st.error(f":red[Грешно!]", icon="⚠️")
-            
-                
-
-        if st.session_state.show_answers:
-            with col3:
-                st.success(f':green[{answer}]')
-        score_false += 1
+        st.session_state.user_answers[i] = user_input
+        with col5:
+            # Check if the answer is correct
+            if user_input == answer:
+                st.write("")
+                st.success(f":green[Вярно!]", icon="✅")
+                score += 1
+                score_true += 1
+            else:
+                if st.session_state.user_answers[i] != None:
+                    st.write("")
+                    st.error(f":red[Грешно!]", icon="⚠️")
+                if st.session_state.show_answers:
+                    st.write("")
+                    st.success(f':green[{answer}]')
+                if user_input != None:
+                    score_false += 1
 
 # Show score
-st.write(f"Your score: {score}/10")
-st.write(f"True answers: {score_true}")
-st.write(f"False answers: {score_false}")
+st.write(f"Резултат: {score}/5")
+st.write(f"Правилни отговори: {score_true}")
+st.write(f"Грешни отговори: {score_false}")
 
 st.session_state.show_answers = False
+
+if score_true == 5:
+    st.balloons()
+    time.sleep(0.8)
+    st.balloons()
+    time.sleep(0.8)
+    st.balloons()
+    time.sleep(0.8)
+    st.balloons()
