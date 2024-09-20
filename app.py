@@ -1,7 +1,9 @@
 import streamlit as st
 import random
 import time
-
+from streamlit_echarts import st_echarts, st_pyecharts
+from pyecharts import options as opts
+from pyecharts.charts import Bar
 
 
 st.write(f"Здравей, :blue[Теди]! Можеш ли да решиш тези задачи?")
@@ -11,7 +13,7 @@ if "show_answers" not in st.session_state:
     st.session_state.show_answers = False
 
 # Columns for buttons
-column1, column2, column3, column4 = st.columns(4, gap="small")
+column1, column2, column3, column4 = st.columns([0.5, 0.5, 0.5, 1], gap="small", vertical_alignment="bottom")
 
 with column1:
     button_show = st.button("Покажи отговорите")
@@ -69,7 +71,7 @@ score_true = 0
 score_false = 0
 score = 0
 for i, (num1, operator, num2, answer) in enumerate(st.session_state.problems):
-    col1, col2, col3, col4, col5 = st.columns([0.5, 0.3, 0.5,0.5, 2], gap="small")
+    col1, col2, col3, col4, col5, col6 = st.columns([0.5, 0.3, 0.5,0.5, 1,2], gap="small", vertical_alignment="top")
     
     # Display num1 as GIF
     with col1:
@@ -106,9 +108,9 @@ for i, (num1, operator, num2, answer) in enumerate(st.session_state.problems):
                     score_false += 1
 
 # Show score
-st.write(f"Резултат: {score}/5")
-st.write(f"Правилни отговори: {score_true}")
-st.write(f"Грешни отговори: {score_false}")
+# st.write(f"Резултат: {score}/5")
+# st.write(f"Правилни отговори: {score_true}")
+# st.write(f"Грешни отговори: {score_false}")
 
 st.session_state.show_answers = False
 
@@ -120,3 +122,38 @@ if score_true == 5:
     st.balloons()
     time.sleep(0.8)
     st.balloons()
+
+
+with col6:
+
+    pie = st_echarts(options={
+    # "title": {
+    #     "text": f"Верни {round(score_true,0):,.0f} vs Грешни {round(score_false,0):,.0f}".replace(',', ' '),
+    #     "left": "center"
+    # },
+    "tooltip": {
+        "trigger": "item" 
+    },
+    "legend": {
+        "orient": "horizontal",
+        "left": "left"
+    },
+    "series": [
+        {
+        #"name": "Брой",
+        "type": "pie",
+        "radius": "70%",
+        "data": [
+            {"value": round(score_true,0), "name": "Верни", "itemStyle": {"color": "#7efc89"}},
+            {"value": round(score_false,0), "name": "Грешни", "itemStyle": {"color": "#de5770"}}  
+        ],
+        "emphasis": {
+            "itemStyle": {
+            "shadowBlur": 10,
+            "shadowOffsetX": 0,
+            "shadowColor": "rgba(0, 0, 0, 0.5)"
+            }
+        }
+        }
+    ]
+    })
