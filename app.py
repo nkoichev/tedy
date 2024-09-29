@@ -45,8 +45,23 @@ def new_numbers():
         answer = num1 + num2
         st.session_state.problems.append((num1, operator, num2, answer))
 
+
+# Function to generate new math problems
+def new_numbers_2():
+    st.session_state.problems2 = []
+    for _ in range(5):
+        num01 = random.randint(10, 20)
+        num02 = random.randint(10, 20)
+        operator = "+"
+        answer = num01 + num02
+        st.session_state.problems2.append((num01, operator2, num02, answer2))
+
+
 if st.session_state.problems == []:
     new_numbers()
+
+if st.session_state.problems2 == []:
+    new_numbers_2()
 
 # Button for refreshing problems
 with column3:
@@ -69,9 +84,15 @@ if button_reload:
 if 'problems' not in st.session_state:
     new_numbers()
 
+if 'problems2' not in st.session_state:
+    new_numbers_2()
+
 # Initialize user answers
 if 'user_answers' not in st.session_state:
     st.session_state.user_answers = [None] * 5
+
+if 'user_answers2' not in st.session_state:
+    st.session_state.user_answers2 = [None] * 5
 
 # Score calculation
 score_true = 0
@@ -114,12 +135,34 @@ for i, (num1, operator, num2, answer) in enumerate(st.session_state.problems):
                 if user_input != None:
                     score_false += 1
 
+# Score calculation2
+for i, (num01, operator2, num02, answer2) in enumerate(st.session_state.problems2):
+    col1, col2, col3, col4, col5, col6 = st.columns([0.5, 0.3, 0.5,0.5, 1,2], gap="small", vertical_alignment="top")
+    
+    # Display num1 as GIF
+    with col1:
+        st.image(f"gifs/{num01}.gif")
+    
+    # Display operator
+    with col2:
+        st.write("")
+        st.image(f"gifs/plus.png")
+    
+    # Display num2 as GIF
+    with col3:
+        st.image(f"gifs/{num02}.gif")
+    
+    # User input for the answer
+    with col4:
+        user_input = st.number_input(label="", format="%0.0f", value=st.session_state.user_answers2[int(i)] or None, key=f"input2_{i}")
+
 # Show score
 # st.write(f"Резултат: {score}/5")
 # st.write(f"Правилни отговори: {score_true}")
 # st.write(f"Грешни отговори: {score_false}")
 
 st.session_state.show_answers = False
+
 
 if score_true == 5:
     st.balloons()
