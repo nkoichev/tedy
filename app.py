@@ -131,8 +131,8 @@ if score_true == 5:
     st.balloons()
 
 
-with col6:
-
+# with col6:
+if score_true != 0 and score_false != 0:
     pie = st_echarts(options={
     # "title": {
     #     "text": f"Верни {round(score_true,0):,.0f} vs Грешни {round(score_false,0):,.0f}".replace(',', ' '),
