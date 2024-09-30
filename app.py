@@ -2,9 +2,6 @@
 # source venv/bin/activate
 # pip install -r requirements.txt
 
-
-
-
 import streamlit as st
 import random
 import time
@@ -12,6 +9,8 @@ from streamlit_echarts import st_echarts, st_pyecharts
 from pyecharts import options as opts
 from pyecharts.charts import Bar
 
+
+image_tedy = st.image("tedy_5_hd.png", width=300)
 
 st.write(f"Здравей, :blue[Теди]! Можеш ли да решиш тези задачи?")
 
@@ -70,8 +69,11 @@ if st.session_state.problems2 == []:
 with column3:
     button_reload = st.button("Обнови")
 
+# with column4:
+#     st.image("Tedy_5.png", width=300)
+
 if button_reload:
-    progress_text = ":) :) :)"
+    progress_text = "✅ ⚠️ ✅ ⚠️ ✅ ⚠️ ✅ ⚠️ ✅"
     my_bar = st.progress(0, text=progress_text)
 
     for percent_complete in range(100):
