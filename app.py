@@ -108,15 +108,18 @@ for i, (num1, operator, num2, answer) in enumerate(st.session_state.problems):
     
     # Display num1 as GIF
     with col1:
+        st.write("")
         st.image(f"gifs/{num1}.gif")
     
     # Display operator
     with col2:
         st.write("")
+        st.write("")
         st.image(f"gifs/plus.png")
     
     # Display num2 as GIF
     with col3:
+        st.write("")
         st.image(f"gifs/{num2}.gif")
     
     # User input for the answer
@@ -142,21 +145,25 @@ for i, (num1, operator, num2, answer) in enumerate(st.session_state.problems):
                 if user_input != None:
                     score_false += 1
 
+st.write("---")
 # Score calculation2
 for i, (num01, operator2, num02, answer2) in enumerate(st.session_state.problems2):
     col1, col2, col3, col4, col5, col6 = st.columns([0.5, 0.3, 0.5,0.5, 1,2], gap="small", vertical_alignment="top")
     
     # Display num1 as GIF
     with col1:
+        st.write("")
         st.image(f"gifs/{num01}.gif")
     
     # Display operator
     with col2:
         st.write("")
+        st.write("")
         st.image(f"gifs/plus.png")
     
     # Display num2 as GIF
     with col3:
+        st.write("")
         st.image(f"gifs/{num02}.gif")
     
     # User input for the answer
@@ -191,7 +198,7 @@ st.session_state.show_answers = False
 
 
 
-if score_true == 5:
+if score_true == 6:
     st.balloons()
     time.sleep(0.8)
     st.balloons()
@@ -203,34 +210,40 @@ if score_true == 5:
 
 # with col6:
 if score_true != 0 and score_false != 0:
-    pie = st_echarts(options={
-    # "title": {
-    #     "text": f"Верни {round(score_true,0):,.0f} vs Грешни {round(score_false,0):,.0f}".replace(',', ' '),
-    #     "left": "center"
-    # },
-    "tooltip": {
-        "trigger": "item" 
-    },
-    "legend": {
-        "orient": "horizontal",
-        "left": "left"
-    },
-    "series": [
-        {
-        #"name": "Брой",
-        "type": "pie",
-        "radius": "70%",
-        "data": [
-            {"value": round(score_true,0), "name": "Верни", "itemStyle": {"color": "#7efc89"}},
-            {"value": round(score_false,0), "name": "Грешни", "itemStyle": {"color": "#de5770"}}  
-        ],
-        "emphasis": {
-            "itemStyle": {
-            "shadowBlur": 10,
-            "shadowOffsetX": 0,
-            "shadowColor": "rgba(0, 0, 0, 0.5)"
+    c1,c2 = st.columns([5,4], gap="small", vertical_alignment="top")
+    with c1:
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        pie = st_echarts(options={
+        # "title": {
+        #     "text": f"Верни {round(score_true,0):,.0f} vs Грешни {round(score_false,0):,.0f}".replace(',', ' '),
+        #     "left": "center"
+        # },
+        "tooltip": {
+            "trigger": "item" 
+        },
+        "legend": {
+            "orient": "horizontal",
+            "left": "left"
+        },
+        "series": [
+            {
+            #"name": "Брой",
+            "type": "pie",
+            "radius": "60%",
+            "data": [
+                {"value": round(score_true,0), "name": "Верни", "itemStyle": {"color": "#7efc89"}},
+                {"value": round(score_false,0), "name": "Грешни", "itemStyle": {"color": "#de5770"}}  
+            ],
+            "emphasis": {
+                "itemStyle": {
+                "shadowBlur": 10,
+                "shadowOffsetX": 10,
+                "shadowColor": "rgba(0, 0, 0, 0.5)"
+                }
             }
-        }
-        }
-    ]
-    })
+            }
+        ]
+        })
