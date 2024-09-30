@@ -35,6 +35,9 @@ with column2:
 if 'problems' not in st.session_state:
     st.session_state.problems = []
 
+if 'problems2' not in st.session_state:
+    st.session_state.problems2 = []
+
 # Function to generate new math problems
 def new_numbers():
     st.session_state.problems = []
@@ -49,11 +52,11 @@ def new_numbers():
 # Function to generate new math problems
 def new_numbers_2():
     st.session_state.problems2 = []
-    for _ in range(5):
+    for _ in range(1):
         num01 = random.randint(10, 20)
         num02 = random.randint(10, 20)
-        operator = "+"
-        answer = num01 + num02
+        operator2 = "+"
+        answer2 = num01 + num02
         st.session_state.problems2.append((num01, operator2, num02, answer2))
 
 
@@ -77,8 +80,10 @@ if button_reload:
     time.sleep(0.5)
     my_bar.empty()
     st.session_state.user_answers = [None] * 5
+    st.session_state.user_answers2 = [None] * 5
 
     new_numbers()
+    new_numbers_2()
     st.snow()
 
 if 'problems' not in st.session_state:
@@ -117,7 +122,9 @@ for i, (num1, operator, num2, answer) in enumerate(st.session_state.problems):
     # User input for the answer
     with col4:
         user_input = st.number_input(label="", format="%0.0f", value=st.session_state.user_answers[int(i)] or None, key=f"input_{i}")
+        
         st.session_state.user_answers[i] = user_input
+
         with col5:
             # Check if the answer is correct
             if user_input == answer:
@@ -155,6 +162,25 @@ for i, (num01, operator2, num02, answer2) in enumerate(st.session_state.problems
     # User input for the answer
     with col4:
         user_input = st.number_input(label="", format="%0.0f", value=st.session_state.user_answers2[int(i)] or None, key=f"input2_{i}")
+        
+        st.session_state.user_answers2[i] = user_input
+
+        with col5:
+            # Check if the answer is correct
+            if user_input == answer2:
+                st.write("")
+                st.success(f":green[Вярно!]", icon="✅")
+                score += 1
+                score_true += 1
+            else:
+                if st.session_state.user_answers2[i] != None:
+                    st.write("")
+                    st.error(f":red[Грешно!]", icon="⚠️")
+                if st.session_state.show_answers:
+                    st.write("")
+                    st.success(f':green[{answer2}]')
+                if user_input != None:
+                    score_false += 1
 
 # Show score
 # st.write(f"Резултат: {score}/5")
@@ -162,6 +188,7 @@ for i, (num01, operator2, num02, answer2) in enumerate(st.session_state.problems
 # st.write(f"Грешни отговори: {score_false}")
 
 st.session_state.show_answers = False
+
 
 
 if score_true == 5:
