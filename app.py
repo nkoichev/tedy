@@ -94,7 +94,7 @@ with tab1:
 
 with tab2:
 
-    image_tedy = st.image("tedy_5_hd.png", width=300)
+    image_tedy = st.image("little_tedy.jpg", width=300)
 
     st.write(f"Здравей, :blue[Теди]! Можеш ли да решиш тези задачи?")
 
