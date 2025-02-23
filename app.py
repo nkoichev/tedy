@@ -17,7 +17,7 @@ st.set_page_config(
 
 )
 
-tab1, tab2 = st.tabs(["Задачи 1", "Задачи 2"])
+tab1, tab2, tab3 = st.tabs(["Задачи 1", "Задачи 2", "Задачи 3"])
 
 with tab1:
 
@@ -85,12 +85,18 @@ with tab1:
         st.session_state.reload = True
 
     if st.session_state.reload:
+
+        progress_text = "✅ ⚠️ ✅ ⚠️ ✅ ⚠️ ✅ ⚠️"
+        my_bar = st.progress(0, text=progress_text)
+
+        for percent_complete in range(100):
+            time.sleep(0.005)
+            my_bar.progress(percent_complete + 1, text=progress_text)
+        time.sleep(0.5)
+        my_bar.empty()
+
         load_numbers.clear()
         st.session_state["reload"] = False
-
-
-
-
 
 with tab2:
 
@@ -333,3 +339,208 @@ with tab2:
                 }
             ]
             })
+
+with tab3:
+
+
+
+    # # Function to mix two hex colors
+    # def mix_colors(color1, color2):
+    #     mixed_color = "#"
+    #     for i in range(1, 7, 2):
+    #         component1 = int(color1[i:i+2], 16)
+    #         component2 = int(color2[i:i+2], 16)
+    #         mixed_component = (component1 + component2) // 2
+    #         mixed_color += f"{mixed_component:02x}"
+    #     return mixed_color
+
+    # def generate_css_for_options(colors: list) -> str:
+    #     css = "<style>"
+    #     for i, color in enumerate(colors):
+    #         css += (
+    #             f"""ul[data-testid="stSelectboxVirtualDropdown"] li[role="option"]:nth-child({i + 1})"""
+    #             + "{"
+    #             + f"background-color: {color['code']}; color: {color['text_color']};"
+    #             + "}"
+    #         )
+    #     css += "</style>"
+    #     return css
+
+
+
+    # def generate_css_for_box(color_name: str) -> str:
+    #     css = "<style>"
+    #     for color in colors:
+    #         if color["name"] == color_name:
+    #             css += (
+    #                 """div[data-baseweb="select"] > div:first-child {"""
+    #                 + f"background-color: {color['code']}; color: {color['text_color']};"
+    #                 + "}"
+    #             )
+    #             break
+    #     css += "</style>"
+    #     return css
+
+    # colors1 = [
+    #     {"code": "#101B58", "name": "Penn Blue", "text_color": "#FFFFFF"},
+    #     {"code": "#45296C", "name": "Tekhelet", "text_color": "#FFFFFF"},
+    #     {"code": "#793780", "name": "Eminence", "text_color": "#FFFFFF"},
+    #     {"code": "#AD4594", "name": "Fandango", "text_color": "#FFFFFF"},
+    #     {"code": "#E153A8", "name": "Brilliant Rose", "text_color": "#FFFFFF"},
+    #     {"code": "#F0A998", "name": "Melon", "text_color": "#FFFFFF"},
+    #     {"code": "#F8D490", "name": "Sunset", "text_color": "#000000"},
+    #     {"code": "#FFFF88", "name": "Icterine", "text_color": "#000000"},
+    # ]
+
+
+    # color2 = [
+    #     {"code": "#FF0000", "name": "Red", "text_color": "#FFFFFF"},
+    #     {"code": "#00FF00", "name": "Green", "text_color": "#000000"},
+    #     {"code": "#0000FF", "name": "Blue", "text_color": "#FFFFFF"},
+    #     {"code": "#FFFF00", "name": "Yellow", "text_color": "#000000"},
+    #     {"code": "#FFA500", "name": "Orange", "text_color": "#000000"},
+    #     {"code": "#800080", "name": "Purple", "text_color": "#FFFFFF"},
+    #     {"code": "#FFC0CB", "name": "Pink", "text_color": "#000000"},
+    #     {"code": "#808080", "name": "Gray", "text_color": "#FFFFFF"},
+    #     {"code": "#FFFFFF", "name": "White", "text_color": "#000000"},
+    #     {"code": "#000000", "name": "Black", "text_color": "#FFFFFF"},
+    #     {"code": "#A52A2A", "name": "Brown", "text_color": "#FFFFFF"},
+    #     {"code": "#00FFFF", "name": "Cyan", "text_color": "#000000"},
+    #     {"code": "#008000", "name": "Dark Green", "text_color": "#FFFFFF"},
+    # ]
+
+    # colors = st.segmented_control("Цветове", ["Основни", "Други"])
+    # if colors == "Основни":
+    #     colors = color2
+    # else:
+    #     colors = colors1
+
+    # col1, col2 = st.columns([1, 1])
+
+    # with col1:
+    #     st.markdown(generate_css_for_options(colors), unsafe_allow_html=True)
+    #     options = [color["name"] for color in colors]
+    #     selected_color = st.selectbox(label="Избери цвят 1", options=options, key="color_selected")
+    #     st.markdown(generate_css_for_box(selected_color), unsafe_allow_html=True)
+
+    # with col2:
+    #     st.markdown(generate_css_for_options(colors), unsafe_allow_html=True)
+    #     options2 = [color["name"] for color in colors]
+    #     selected_color2 = st.selectbox(label="Избери цвят 2", options=options2, key="color_selected2")
+    #     st.markdown(generate_css_for_box(selected_color2), unsafe_allow_html=True)
+
+    # st.write("Selected Color:", f'{selected_color}: {next(color["code"] for color in colors if color["name"] == selected_color)}')
+    # st.write("Selected Color2:", f'{selected_color2}: {next(color["code"] for color in colors if color["name"] == selected_color2)}')
+
+    # # Find the corresponding color dictionaries
+    # color1 = next(color for color in colors if color["name"] == selected_color)
+    # color2 = next(color for color in colors if color["name"] == selected_color2)
+
+    # # Mix the selected colors
+    # mixed_color = mix_colors(color1["code"], color2["code"])
+    # st.write("Mixed Color:", mixed_color)
+    # st.markdown(
+    #     f'<div style="background-color: {mixed_color}; width: 200px; height: 200px;"></div>',
+    #     unsafe_allow_html=True,
+    # )
+
+
+
+
+    # Function to mix two hex colors
+    def mix_colors(color1, color2):
+        mixed_color = "#"
+        for i in range(1, 7, 2):
+            component1 = int(color1[i:i+2], 16)
+            component2 = int(color2[i:i+2], 16)
+            mixed_component = (component1 + component2) // 2
+            mixed_color += f"{mixed_component:02x}"
+        return mixed_color
+
+    def generate_css_for_options(colors: list) -> str:
+        css = "<style>"
+        for i, color in enumerate(colors):
+            css += (
+                f"""ul[data-testid="stSelectboxVirtualDropdown"] li[role="option"]:nth-child({i + 1})"""
+                + "{"
+                + f"background-color: {color['code']}; color: {color['text_color']};"
+                + "}"
+            )
+        css += "</style>"
+        return css
+
+    def generate_css_for_box(color_name: str) -> str:
+        css = "<style>"
+        for color in colors:
+            if color["name"] == color_name:
+                css += (
+                    """div[data-baseweb="select"] > div:first-child {"""
+                    + f"background-color: {color['code']}; color: {color['text_color']};"
+                    + "}"
+                )
+                break
+        css += "</style>"
+        return css
+
+    # Define the colors
+    colors1 = [
+        {"code": "#101B58", "name": "Penn Blue", "text_color": "#FFFFFF"},
+        {"code": "#45296C", "name": "Tekhelet", "text_color": "#FFFFFF"},
+        {"code": "#793780", "name": "Eminence", "text_color": "#FFFFFF"},
+        {"code": "#AD4594", "name": "Fandango", "text_color": "#FFFFFF"},
+        {"code": "#E153A8", "name": "Brilliant Rose", "text_color": "#FFFFFF"},
+        {"code": "#F0A998", "name": "Melon", "text_color": "#FFFFFF"},
+        {"code": "#F8D490", "name": "Sunset", "text_color": "#000000"},
+        {"code": "#FFFF88", "name": "Icterine", "text_color": "#000000"},
+
+    ]
+
+    colors2 = [
+        {"code": "#FF0000", "name": "Red", "text_color": "#FFFFFF"},
+        {"code": "#00FF00", "name": "Green", "text_color": "#000000"},
+        {"code": "#0000FF", "name": "Blue", "text_color": "#FFFFFF"},
+        {"code": "#FFFF00", "name": "Yellow", "text_color": "#000000"},
+        {"code": "#FFA500", "name": "Orange", "text_color": "#000000"},
+        {"code": "#800080", "name": "Purple", "text_color": "#FFFFFF"},
+        {"code": "#FFC0CB", "name": "Pink", "text_color": "#000000"},
+        {"code": "#808080", "name": "Gray", "text_color": "#FFFFFF"},
+        {"code": "#FFFFFF", "name": "White", "text_color": "#000000"},
+        {"code": "#000000", "name": "Black", "text_color": "#FFFFFF"},
+        {"code": "#A52A2A", "name": "Brown", "text_color": "#FFFFFF"},
+        {"code": "#008000", "name": "Dark Green", "text_color": "#FFFFFF"},
+    ]
+
+    colors = st.segmented_control("Цветове", ["Основни", "Други"], default="Основни")
+    if colors == "Основни":
+        colors = colors2
+    else:
+        colors = colors1
+
+    col1, col2 = st.columns([1, 1])
+
+    with col1:
+        st.markdown(generate_css_for_options(colors), unsafe_allow_html=True)
+        options = [color["name"] for color in colors]
+        selected_color = st.selectbox(label="Избери цвят 1", options=options, key="color_selected")
+        st.markdown(generate_css_for_box(selected_color), unsafe_allow_html=True)
+
+    with col2:
+        st.markdown(generate_css_for_options(colors), unsafe_allow_html=True)
+        options2 = [color["name"] for color in colors]
+        selected_color2 = st.selectbox(label="Избери цвят 2", options=options2, key="color_selected2")
+        st.markdown(generate_css_for_box(selected_color2), unsafe_allow_html=True)
+
+    st.write("Selected Color:", f'{selected_color}: {next(color["code"] for color in colors if color["name"] == selected_color)}')
+    st.write("Selected Color2:", f'{selected_color2}: {next(color["code"] for color in colors if color["name"] == selected_color2)}')
+
+    # Find the corresponding color dictionaries
+    color1 = next(color for color in colors if color["name"] == selected_color)
+    color2 = next(color for color in colors if color["name"] == selected_color2)
+
+    # Mix the selected colors
+    mixed_color = mix_colors(color1["code"], color2["code"])
+    st.write("Mixed Color:", mixed_color)
+    st.markdown(
+        f'<div style="background-color: {mixed_color}; width: 200px; height: 200px;"></div>',
+        unsafe_allow_html=True,
+    )
